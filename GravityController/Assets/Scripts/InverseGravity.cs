@@ -30,12 +30,11 @@ public class InverseGravity : GravityController
         */
         if (closestToGroundDirection != Vector3.zero)
             return closestToGroundDirection;
-        else
-        {
-            //Calculate direction from the player to the gravity objects collider.
-            Vector3 sphericalPoint = groundObjectCollider.ClosestPoint(player.transform.position);
-            Vector3 sphericalDirection = (sphericalPoint - groundObject.transform.position).normalized;
-            return sphericalDirection;
-        }
+
+        //Calculate direction from the player to the gravity objects collider.
+        Vector3 sphericalPoint = groundObjectCollider.ClosestPoint(player.transform.position);
+        Vector3 sphericalDirection = (sphericalPoint - groundObject.transform.position).normalized;
+        return sphericalDirection;
+
     }
 }

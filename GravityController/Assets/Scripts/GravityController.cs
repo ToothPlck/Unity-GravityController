@@ -3,8 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class GravityController : MonoBehaviour
 {
-    [SerializeField]
-    private int priority;
+    [SerializeField] private int priority;
     public int Priority => priority; //======================================================================================================== what is => and why we using it?
 
     // Start is called before the first frame update
