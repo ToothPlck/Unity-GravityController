@@ -10,12 +10,17 @@ public class PlayerGravity : MonoBehaviour
     private Rigidbody playerRigibody;
     private List<GravityController> gravityAreas;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         //Get the players rigidbody component
         playerRigibody = transform.GetComponent<Rigidbody>();
         gravityAreas = new List<GravityController>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        playerRigibody.freezeRotation = true;
     }
 
     public Vector3 GravityDirection
