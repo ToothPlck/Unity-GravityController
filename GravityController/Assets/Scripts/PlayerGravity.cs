@@ -30,6 +30,7 @@ public class PlayerGravity : MonoBehaviour
             if (gravityAreas.Count == 0)
                 return Vector3.zero;
 
+
             /*
              * Sort the list of GravityControllers by comparing their priority. Gravity areas with higher priority are set at the end of the list.
              * Example of a sorted list by priority : [0, 0, 1, 2, 3, 3, 3, 5 ,8, 8]
@@ -46,8 +47,11 @@ public class PlayerGravity : MonoBehaviour
     // FixedUpdate is called once per physics update
     private void FixedUpdate()
     {
+        //Get the direction of gravity and add a force to the players rigidbody in that direction
         playerRigibody.AddForce(GravityDirection * (gravityForce * Time.fixedDeltaTime), ForceMode.Acceleration);
 
+
+        //Rotate the player from its current rotation to the direction of gravity
         Quaternion playerUpRotation = Quaternion.FromToRotation(transform.up, -GravityDirection);
         Quaternion rotatePlayer = Quaternion.Slerp(playerRigibody.rotation, playerUpRotation * playerRigibody.rotation, Time.deltaTime * rotationSpeedToGravity);
         playerRigibody.MoveRotation(rotatePlayer);

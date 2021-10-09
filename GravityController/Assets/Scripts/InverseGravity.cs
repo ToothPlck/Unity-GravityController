@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Extending the GravityController abstract class
 public class InverseGravity : GravityController
 {
     public override Vector3 GetGravityDirection(PlayerGravity playerGravity)
