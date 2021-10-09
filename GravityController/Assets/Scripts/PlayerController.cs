@@ -53,20 +53,35 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        movementDirection += movement.ReadValue<Vector2>().x * GetCameraRight(playerCamera) * horizontalSpeed;
-        movementDirection += movement.ReadValue<Vector2>().y * GetCameraForward(playerCamera) * horizontalSpeed;
+        playerRigidbody.AddForce(movement.ReadValue<Vector2>().x * horizontalSpeed , 0 , movement.ReadValue<Vector2>().y * horizontalSpeed, ForceMode.Acceleration);
+        //movementDirection += movement.ReadValue<Vector2>().x * GetCameraRight(playerCamera) * horizontalSpeed;
+        //movementDirection += movement.ReadValue<Vector2>().y * GetCameraForward(playerCamera) * horizontalSpeed;
 
-        playerRigidbody.AddForce(movementDirection, ForceMode.Impulse);
-        movementDirection = Vector3.zero;
-
-        //if (playerRigidbody.velocity.y < 0f)
-        //    playerRigidbody.velocity += Vector3.down * playerGravity.gravityForce * Time.fixedDeltaTime;
+        //playerRigidbody.AddForce(movementDirection, ForceMode.Impulse);
+        //movementDirection = Vector3.zero;
 
         Vector3 horizontalVelocity = playerRigidbody.velocity;
         horizontalVelocity.y = 0;
         if (horizontalVelocity.sqrMagnitude > maxHorizontalSpeed * maxHorizontalSpeed)
             playerRigidbody.velocity = horizontalVelocity.normalized * maxHorizontalSpeed + Vector3.up * playerRigidbody.velocity.y;
+
+        LookAt();
         
+    }
+
+    private void LookAt()
+    {
+        Vector3 lookAtDirection = playerRigidbody.velocity;
+        lookAtDirection.y = 0f;
+
+        if (movement.ReadValue<Vector2>().sqrMagnitude > 0.1f && lookAtDirection.sqrMagnitude > 0.1f)
+        {
+            this.playerRigidbody.rotation = Quaternion.LookRotation(lookAtDirection, -playerGravity.GravityDirection);
+        }
+        else
+        {
+            playerRigidbody.angularVelocity = Vector3.zero;
+        }
     }
 
     private void Update()
