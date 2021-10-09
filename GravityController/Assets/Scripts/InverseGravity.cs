@@ -3,6 +3,8 @@ using UnityEngine;
 //Extending the GravityController abstract class
 public class InverseGravity : GravityController
 {
+
+    //Overriding the abstract method of the GravityController abstract class
     public override Vector3 GetGravityDirection(PlayerGravity playerGravity)
     {
         //Get the closest point between the player and the gravity collider object
