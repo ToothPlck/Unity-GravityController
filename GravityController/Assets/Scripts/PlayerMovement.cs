@@ -47,10 +47,37 @@ public class PlayerMovement : MonoBehaviour
     {
 
         //
-        Debug.DrawRay(cameraMainTransform.position, cameraMainTransform.forward * 5, Color.magenta);
-
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.yellow);
+        //Debug.DrawRay(transform.position, transform.forward * 5, Color.yellow);
         //
+
+        ////
+        ////Direction from the camera towards the player
+        //Vector3 direction = transform.position - cameraMainTransform.position;
+        //Debug.DrawRay(cameraMainTransform.position, direction * 5, Color.magenta);
+
+        //Vector3 playerMoveDirection = new Vector3(direction.x, 0f, direction.z);
+        //playerMoveDirection.y = 0;
+        ////Vector3 playerMoveDirection = direction + transform.position;
+        //Debug.DrawRay(transform.position, playerMoveDirection * 5, Color.yellow);
+        ////
+        ///
+
+
+
+        //
+        //Direction from the camera towards the player
+        Vector3 direction = transform.position - cameraMainTransform.position;
+        Debug.DrawRay(cameraMainTransform.position, direction * 5, Color.magenta);
+
+        Vector3 playerMoveDirection = new Vector3(direction.x, transform.rotation.y, direction.z);
+
+        Debug.DrawRay(transform.position, playerMoveDirection * 5, Color.red);
+
+
+        print(direction + "move");
+        print(transform.rotation + "rotation");
+        //
+
 
 
         onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
@@ -62,11 +89,11 @@ public class PlayerMovement : MonoBehaviour
 
         playerRigidbody.MovePosition(playerRigidbody.position + move * (moveSpeed * Time.fixedDeltaTime));
 
-        if(movement != Vector2.zero)
-        {
-            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
-            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-        }
+        //if(movement != Vector2.zero)
+        //{
+        //    float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
+        //    Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+        //}
     }
 }
