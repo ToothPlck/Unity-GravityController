@@ -47,39 +47,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ////
-        ////Direction from the camera towards the player
-        //Vector3 direction = transform.position - cameraMainTransform.position;
-        //Debug.DrawRay(cameraMainTransform.position, direction * 5, Color.magenta);
-
-        //Vector3 playerMoveDirection = new Vector3(direction.x, 0f, direction.z);
-        ////playerMoveDirection.y = 0;
-        ////Vector3 playerMoveDirection = direction + transform.position;
-        //Debug.DrawRay(transform.position, playerMoveDirection * 5, Color.yellow);
-        ////
-
-
-
-        ////
-        //int playerLayer = 1 << LayerMask.NameToLayer("Player");
-
-        //Vector3 directionFromCameraToPlayer = transform.position - cameraMainTransform.position;
-        //Physics.Raycast(cameraMainTransform.position, directionFromCameraToPlayer, out RaycastHit hit, 10, playerLayer);
-        //Debug.DrawLine(cameraMainTransform.position, directionFromCameraToPlayer * 10, Color.green);
-        //print(hit.collider.gameObject.tag);
-        //Debug.DrawLine(transform.position, -hit.normal * 10, Color.red);
-        ////
-
-
-
 
         onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
 
         Vector2 movement = movementControl.action.ReadValue<Vector2>();
 
         Vector3 move = new Vector3(movement.x, 0, movement.y);
-        move = transform.forward * move.z + transform.right * move.x;
+        //move = transform.forward * move.z + transform.right * move.x;
+        Vector3 velocity = Vector3.zero;
+        velocity += Vector3.ProjectOnPlane(cameraMainTransform.right, transform.up).normalized * move.x;
+        velocity += Vector3.ProjectOnPlane(cameraMainTransform.forward, transform.up).normalized * move.z;
 
-        playerRigidbody.MovePosition(playerRigidbody.position + move * (moveSpeed * Time.fixedDeltaTime));
+        if (velocity.magnitude > 1f)
+            velocity.Normalize();
+
+        playerRigidbody.MovePosition(playerRigidbody.position + velocity * (moveSpeed * Time.fixedDeltaTime));
     }
 }
