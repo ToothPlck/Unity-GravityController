@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private bool onGround;
     [SerializeField] private float rotationSpeed = 4.0f;
     private Transform cameraMainTransform;
+    private PlayerGravity playerGravity;
 
     private void OnEnable()
     {
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody>();
         cameraMainTransform = Camera.main.transform;
+        playerGravity = transform.GetComponent<PlayerGravity>();
     }
 
     // Start is called before the first frame update
@@ -45,38 +47,29 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //
-        //Debug.DrawRay(transform.position, transform.forward * 5, Color.yellow);
-        //
-
         ////
         ////Direction from the camera towards the player
         //Vector3 direction = transform.position - cameraMainTransform.position;
         //Debug.DrawRay(cameraMainTransform.position, direction * 5, Color.magenta);
 
         //Vector3 playerMoveDirection = new Vector3(direction.x, 0f, direction.z);
-        //playerMoveDirection.y = 0;
+        ////playerMoveDirection.y = 0;
         ////Vector3 playerMoveDirection = direction + transform.position;
         //Debug.DrawRay(transform.position, playerMoveDirection * 5, Color.yellow);
         ////
-        ///
 
 
 
-        //
-        //Direction from the camera towards the player
-        Vector3 direction = transform.position - cameraMainTransform.position;
-        Debug.DrawRay(cameraMainTransform.position, direction * 5, Color.magenta);
+        ////
+        //int playerLayer = 1 << LayerMask.NameToLayer("Player");
 
-        Vector3 playerMoveDirection = new Vector3(direction.x, transform.rotation.y, direction.z);
+        //Vector3 directionFromCameraToPlayer = transform.position - cameraMainTransform.position;
+        //Physics.Raycast(cameraMainTransform.position, directionFromCameraToPlayer, out RaycastHit hit, 10, playerLayer);
+        //Debug.DrawLine(cameraMainTransform.position, directionFromCameraToPlayer * 10, Color.green);
+        //print(hit.collider.gameObject.tag);
+        //Debug.DrawLine(transform.position, -hit.normal * 10, Color.red);
+        ////
 
-        Debug.DrawRay(transform.position, playerMoveDirection * 5, Color.red);
-
-
-        print(direction + "move");
-        print(transform.rotation + "rotation");
-        //
 
 
 
@@ -88,12 +81,5 @@ public class PlayerMovement : MonoBehaviour
         move = transform.forward * move.z + transform.right * move.x;
 
         playerRigidbody.MovePosition(playerRigidbody.position + move * (moveSpeed * Time.fixedDeltaTime));
-
-        //if(movement != Vector2.zero)
-        //{
-        //    float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg + cameraMainTransform.eulerAngles.y;
-        //    Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
-        //    transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-        //}
     }
 }
