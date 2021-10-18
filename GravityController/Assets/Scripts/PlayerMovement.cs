@@ -26,11 +26,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private bool onGround;
     private bool isCrouching;
-    //[SerializeField] private float rotationSpeed = 4.0f;
+    [SerializeField] private float rotationSpeed = 5.0f;
     private Transform cameraMainTransform;
     private PlayerGravity playerGravity;
     private Vector3 playerDefaultScale;
     [SerializeField] private Vector3 playerCrouchingScale;
+
+    [SerializeField] private Transform gimble;
+    [SerializeField] private Transform LookAt;
 
     //[Header("Player step climb:")]
     //[SerializeField] float stepHeight = 0.3f;
@@ -91,7 +94,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (onGround && isCrouching)
             PlayerCrouch();
-
     }
 
     private void FixedUpdate()
@@ -111,6 +113,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (velocity.magnitude > 1f)
             velocity.Normalize();
+
+        gimble.transform.position = transform.position * Time.fixedDeltaTime;
+        ////gimble.transform.forward = Vector3.ProjectOnPlane(cameraMainTransform.forward, transform.up);
+        gimble.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(cameraMainTransform.forward, playerGravity.GravityDirection), -playerGravity.GravityDirection);
+
+        //LookAt.transform.position = transform.position;
+
+        if (move.magnitude > 0.1f && onGround)
+            transform.rotation = Quaternion.LookRotation(gimble.transform.forward * Time.fixedDeltaTime * rotationSpeed, -playerGravity.GravityDirection);
     }
 
     void PlayerMove()
