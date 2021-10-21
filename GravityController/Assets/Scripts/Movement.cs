@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private InputActionReference jumpControl;
     [SerializeField] private InputActionReference crouchControl;
+    private bool crouchActionTriggered;
 
     [Header("Check player grounded state")]
     [SerializeField] private LayerMask groundMask;
@@ -20,7 +21,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float rotationSpeed = 5.0f;
-    [SerializeField] private Vector3 playerCrouchingScale;
+    //[SerializeField] private Vector3 playerCrouchingScale;
+    [SerializeField] private Vector3 playerCrouchingColliderCenter;
+    [SerializeField] private float playerCrouchingColliderHeight;
     private float normalMoveSpeed;
     private float normalJumpheight;
 
@@ -30,6 +33,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private float MudSpeed = 1f;
 
     private Rigidbody playerRigidbody;
+    private CapsuleCollider playerCollider;
     private Transform cameraMainTransform;
     private PlayerGravity playerGravity;
 
@@ -39,14 +43,18 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isCrouching;
     [SerializeField] private bool isCrouchWalking;
     [SerializeField] private bool isJumping;
+    [SerializeField] private bool isFalling;
 
     public bool OnGround => onGround;
     public bool IsWalking => isWalking;
     public bool IsCrouching => isCrouching;
     public bool IsCrouchWalking => isCrouchWalking;
     public bool IsJumping => isJumping;
+    public bool IsFalling => isFalling;
 
-    private Vector3 playerDefaultScale;
+    //private Vector3 playerDefaultScale;
+    private Vector3 playerDefaultColliderCenter;
+    private float playerDefaultColliderHeight;
     private Vector3 velocity;
 
 
@@ -67,6 +75,7 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
         //cameraMainTransform = Camera.main.transform;
         playerGravity = transform.GetComponent<PlayerGravity>();
     }
@@ -74,7 +83,9 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerDefaultScale = transform.localScale;
+        //playerDefaultScale = transform.localScale;
+        playerDefaultColliderCenter = playerCollider.center;
+        playerDefaultColliderHeight = playerCollider.height;
 
         normalJumpheight = jumpHeight;
         normalMoveSpeed = moveSpeed;
@@ -83,45 +94,58 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
 
         onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+
+        isJumping = false;
+
+        if (onGround)
+            isFalling = false;
+
+        if (!onGround)
+            isFalling = true;
 
         if (onGround && jumpControl.action.triggered && !isCrouching)
             PlayerJump();
 
         crouchControl.action.started += context =>
         {
-            isCrouching = true;
+            crouchActionTriggered = true;
         };
 
         crouchControl.action.canceled += context =>
         {
-            isCrouching = false;
+            crouchActionTriggered = false;
             PlayerCancelCrouch();
         };
 
-        if (onGround && isCrouching)
+        if (onGround && crouchActionTriggered)
             PlayerCrouch();
     }
 
     private void FixedUpdate()
     {
-        
+
     }
 
     void PlayerJump()
     {
+        isJumping = true;
         playerRigidbody.AddForce(-playerGravity.GravityDirection * jumpHeight, ForceMode.Impulse);
     }
 
     void PlayerCrouch()
     {
-        transform.localScale = playerCrouchingScale;
+        isCrouching = true;
+        playerCollider.height = playerCrouchingColliderHeight;
+        playerCollider.center = playerCrouchingColliderCenter;
+
     }
 
     void PlayerCancelCrouch()
     {
-        transform.localScale = playerDefaultScale;
+        isCrouching = false;
+        playerCollider.height = playerDefaultColliderHeight;
+        playerCollider.center = playerDefaultColliderCenter;
     }
 }

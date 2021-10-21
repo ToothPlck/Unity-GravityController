@@ -351,13 +351,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 2.5, z: -2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1040337909}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1659997802}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1001 &972874538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375,11 +375,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.36
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_LocalRotation.w
@@ -412,6 +412,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_Name
       value: AnimatedSpaceman
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b580a6ba18430044382873d953372224, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7358180387415272904, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -464,7 +468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1040337906
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -536,11 +540,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1040337905}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.19, y: 2.31, z: 0}
+  m_LocalPosition: {x: -6.86, y: 2.31, z: -8.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1235661336}
-  - {fileID: 963194228}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -597,7 +600,8 @@ MonoBehaviour:
   moveSpeed: 2
   jumpHeight: 15
   rotationSpeed: 5
-  playerCrouchingScale: {x: 1, y: 0.7, z: 1}
+  playerCrouchingColliderCenter: {x: 0, y: 0, z: 0}
+  playerCrouchingColliderHeight: 0
   JumpBoost: 25
   SpeedBoost: 50
   MudSpeed: 1
@@ -606,6 +610,7 @@ MonoBehaviour:
   isCrouching: 0
   isCrouchWalking: 0
   isJumping: 0
+  isFalling: 0
 --- !u!1 &1091841418
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,6 +766,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146723825}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1190096348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190096349}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1190096349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190096348}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1659997802}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1235661335
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +838,7 @@ GameObject:
   - component: {fileID: 1649828453}
   - component: {fileID: 1649828452}
   - component: {fileID: 1649828451}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CubeGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -910,6 +945,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1659997797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659997795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f776880670168b4d9267f69f579c181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityForce: 1500
+  rotationSpeedToGravity: 5
 --- !u!114 &1659997798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,3 +972,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hey: 0
+--- !u!114 &1659997799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659997795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217475dbc0f1412448504b9486b8a9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementControl: {fileID: -2625811829187907803, guid: 054122da72091a44c84d630af5e947d3, type: 3}
+  jumpControl: {fileID: -3222555887701923782, guid: 054122da72091a44c84d630af5e947d3, type: 3}
+  crouchControl: {fileID: -8864051839843763033, guid: 054122da72091a44c84d630af5e947d3, type: 3}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheck: {fileID: 1190096349}
+  groundCheckRadius: 0.3
+  moveSpeed: 2
+  jumpHeight: 10
+  rotationSpeed: 5
+  playerCrouchingColliderCenter: {x: 0, y: 0.85, z: 0}
+  playerCrouchingColliderHeight: 1.7
+  JumpBoost: 25
+  SpeedBoost: 50
+  MudSpeed: 1
+  onGround: 0
+  isWalking: 0
+  isCrouching: 0
+  isCrouchWalking: 0
+  isJumping: 0
+  isFalling: 0
+--- !u!54 &1659997800
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659997795}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &1659997801
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659997795}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!4 &1659997802 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
+  m_PrefabInstance: {fileID: 972874538}
+  m_PrefabAsset: {fileID: 0}
