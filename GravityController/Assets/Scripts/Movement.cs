@@ -198,3 +198,7 @@ public class Movement : MonoBehaviour
     }
 
 }
+//overlapping gravity areas has a major problem...fix that shit.
+//Walk slower while crouching.
+//walking on slopes and stairs.
+//inverse gravity..for tricking purposes :B
