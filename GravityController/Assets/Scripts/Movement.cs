@@ -33,10 +33,21 @@ public class Movement : MonoBehaviour
     private Transform cameraMainTransform;
     private PlayerGravity playerGravity;
 
-    private Vector3 velocity;
-    private bool onGround;
-    private bool isCrouching;
+    //Player states
+    [SerializeField] private bool onGround;
+    [SerializeField] private bool isWalking;
+    [SerializeField] private bool isCrouching;
+    [SerializeField] private bool isCrouchWalking;
+    [SerializeField] private bool isJumping;
+
+    public bool OnGround => onGround;
+    public bool IsWalking => isWalking;
+    public bool IsCrouching => isCrouching;
+    public bool IsCrouchWalking => isCrouchWalking;
+    public bool IsJumping => isJumping;
+
     private Vector3 playerDefaultScale;
+    private Vector3 velocity;
 
 
     private void OnEnable()
