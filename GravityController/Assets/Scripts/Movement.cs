@@ -2,7 +2,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerGravity))]
 public class Movement : MonoBehaviour
 {
 
@@ -21,7 +21,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2.0f;
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float rotationSpeed = 5.0f;
-    //[SerializeField] private Vector3 playerCrouchingScale;
     [SerializeField] private Vector3 playerCrouchingColliderCenter;
     [SerializeField] private float playerCrouchingColliderHeight;
     private float normalMoveSpeed;
@@ -38,21 +37,19 @@ public class Movement : MonoBehaviour
     private PlayerGravity playerGravity;
 
     //Player states
+    [Header("Player states - For demonstration")]
     [SerializeField] private bool onGround;
     [SerializeField] private bool isWalking;
     [SerializeField] private bool isCrouching;
-    //[SerializeField] private bool isCrouchWalking;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
 
     public bool OnGround => onGround;
     public bool IsWalking => isWalking;
     public bool IsCrouching => isCrouching;
-    //public bool IsCrouchWalking => isCrouchWalking;
     public bool IsJumping => isJumping;
     public bool IsFalling => isFalling;
 
-    //private Vector3 playerDefaultScale;
     private Vector3 playerDefaultColliderCenter;
     private float playerDefaultColliderHeight;
     private Vector3 velocity;
@@ -76,14 +73,12 @@ public class Movement : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
-        //cameraMainTransform = Camera.main.transform;
         playerGravity = transform.GetComponent<PlayerGravity>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //playerDefaultScale = transform.localScale;
         playerDefaultColliderCenter = playerCollider.center;
         playerDefaultColliderHeight = playerCollider.height;
 
@@ -172,4 +167,34 @@ public class Movement : MonoBehaviour
         playerCollider.height = playerDefaultColliderHeight;
         playerCollider.center = playerDefaultColliderCenter;
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "SpeedBoost":
+                moveSpeed = SpeedBoost;
+                jumpHeight = normalJumpheight;
+                break;
+            case "Mud":
+                moveSpeed = MudSpeed;
+                jumpHeight = normalJumpheight;
+                break;
+            case "JumpPad":
+                jumpHeight = JumpBoost;
+                moveSpeed = normalMoveSpeed;
+                break;
+            default:
+                moveSpeed = normalMoveSpeed;
+                jumpHeight = normalJumpheight;
+                break;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        moveSpeed = normalMoveSpeed;
+        jumpHeight = normalJumpheight;
+    }
+
 }
