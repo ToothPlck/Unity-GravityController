@@ -6,12 +6,11 @@ public class PlayerAnimations : MonoBehaviour
 
     private Movement playerMovement;
     Animator animator;
+
     int isWalkingHash;
     int isCrouchingHash;
     int isJumpingHash;
     int isFallingHash;
-
-    public bool hey;
 
     private void Awake()
     {
@@ -26,20 +25,14 @@ public class PlayerAnimations : MonoBehaviour
         isCrouchingHash = Animator.StringToHash("isCrouching");
         isJumpingHash = Animator.StringToHash("isJumping");
         isFallingHash = Animator.StringToHash("isFalling");
+        isWalkingHash = Animator.StringToHash("isWalking");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (hey)
-        //    animator.SetBool(isCrouchingHash, true);
-        //if (!hey)
-        //    animator.SetBool(isCrouchingHash, false);
-
         if (playerMovement.IsFalling)
-        {
             animator.SetBool(isFallingHash, true);
-        }
 
         if (!playerMovement.IsFalling)
         {
@@ -48,10 +41,24 @@ public class PlayerAnimations : MonoBehaviour
         }
 
 
+        if (playerMovement.IsWalking && !playerMovement.IsCrouching)
+            animator.SetBool(isWalkingHash, true);
+        if (!playerMovement.IsWalking)
+            animator.SetBool(isWalkingHash, false);
+
+
+        if (playerMovement.IsWalking && playerMovement.IsCrouching)
+            animator.SetBool(isWalkingHash, true);
+        if (!playerMovement.IsWalking && !playerMovement.IsCrouching)
+            animator.SetBool(isWalkingHash, false);
+
+
         if (playerMovement.IsCrouching)
             animator.SetBool(isCrouchingHash, true);
         if (!playerMovement.IsCrouching)
             animator.SetBool(isCrouchingHash, false);
+
+
 
         if (playerMovement.IsJumping)
             animator.SetBool(isJumpingHash, true);

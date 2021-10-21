@@ -605,10 +605,10 @@ MonoBehaviour:
   JumpBoost: 25
   SpeedBoost: 50
   MudSpeed: 1
+  cameraMainTransform: {fileID: 0}
   onGround: 0
   isWalking: 0
   isCrouching: 0
-  isCrouchWalking: 0
   isJumping: 0
   isFalling: 0
 --- !u!1 &1091841418
@@ -971,7 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018857dcac5dfd046a8e70aa01016dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hey: 0
 --- !u!114 &1659997799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,16 +993,16 @@ MonoBehaviour:
   groundCheckRadius: 0.3
   moveSpeed: 2
   jumpHeight: 10
-  rotationSpeed: 5
+  rotationSpeed: 1000
   playerCrouchingColliderCenter: {x: 0, y: 0.85, z: 0}
   playerCrouchingColliderHeight: 1.7
   JumpBoost: 25
   SpeedBoost: 50
   MudSpeed: 1
+  cameraMainTransform: {fileID: 963194228}
   onGround: 0
   isWalking: 0
   isCrouching: 0
-  isCrouchWalking: 0
   isJumping: 0
   isFalling: 0
 --- !u!54 &1659997800

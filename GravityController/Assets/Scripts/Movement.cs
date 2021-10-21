@@ -34,21 +34,21 @@ public class Movement : MonoBehaviour
 
     private Rigidbody playerRigidbody;
     private CapsuleCollider playerCollider;
-    private Transform cameraMainTransform;
+    public Transform cameraMainTransform;
     private PlayerGravity playerGravity;
 
     //Player states
     [SerializeField] private bool onGround;
     [SerializeField] private bool isWalking;
     [SerializeField] private bool isCrouching;
-    [SerializeField] private bool isCrouchWalking;
+    //[SerializeField] private bool isCrouchWalking;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isFalling;
 
     public bool OnGround => onGround;
     public bool IsWalking => isWalking;
     public bool IsCrouching => isCrouching;
-    public bool IsCrouchWalking => isCrouchWalking;
+    //public bool IsCrouchWalking => isCrouchWalking;
     public bool IsJumping => isJumping;
     public bool IsFalling => isFalling;
 
@@ -125,7 +125,31 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        PlayerMove();
+    }
 
+    void PlayerMove()
+    {
+        Vector2 movement = movementControl.action.ReadValue<Vector2>().normalized;
+        Vector3 move = new Vector3(movement.x, 0, movement.y);
+
+        if (move.magnitude > 0.1f)
+            isWalking = true;
+        else
+            isWalking = false;
+
+        velocity = Vector3.zero;
+        //velocity += Vector3.ProjectOnPlane(cameraMainTransform.right, transform.up).normalized * move.x;
+        velocity += Vector3.ProjectOnPlane(cameraMainTransform.forward, transform.up).normalized * move.z;
+
+        if (velocity.magnitude > 1f)
+            velocity.Normalize();
+
+        playerRigidbody.MovePosition(playerRigidbody.position + velocity * (moveSpeed * Time.fixedDeltaTime));
+
+        Quaternion rotateTowards = Quaternion.Euler(0f, move.x * (rotationSpeed * Time.fixedDeltaTime), 0f);
+        Quaternion rotatePlayer = Quaternion.Slerp(playerRigidbody.rotation, playerRigidbody.rotation * rotateTowards, Time.fixedDeltaTime * 3f);
+        playerRigidbody.MoveRotation(rotatePlayer);
     }
 
     void PlayerJump()
