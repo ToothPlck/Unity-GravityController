@@ -201,6 +201,5 @@ public class Movement : MonoBehaviour
     }
 
 }
-//overlapping gravity areas has a major problem...fix that shit.
 //walking on slopes and stairs.
 //inverse gravity..for tricking purposes :B
