@@ -234,7 +234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118978708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15, y: 8, z: 10}
+  m_LocalPosition: {x: -15, y: 8, z: 8}
   m_LocalScale: {x: 12, y: 12, z: 12}
   m_Children:
   - {fileID: 1958431207}
@@ -719,7 +719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b580a6ba18430044382873d953372224, type: 3}
       propertyPath: m_LocalPosition.z
@@ -942,6 +942,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1235661336}
   groundCheckRadius: 0.3
   moveSpeed: 2
+  crouchMoveSpeed: 1
   jumpHeight: 15
   rotationSpeed: 5
   playerCrouchingColliderCenter: {x: 0, y: 0, z: 0}
@@ -985,7 +986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69bbc5e150119d4a88ba9aa49c5b645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  priority: 1
+  priority: 0
 --- !u!65 &1091841420
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1526,6 +1527,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1190096349}
   groundCheckRadius: 0.3
   moveSpeed: 2
+  crouchMoveSpeed: 0.5
   jumpHeight: 12
   rotationSpeed: 1000
   playerCrouchingColliderCenter: {x: 0, y: 0.85, z: 0}

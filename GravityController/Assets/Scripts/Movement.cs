@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour
 
     [Header("Player movement")]
     [SerializeField] private float moveSpeed = 2.0f;
+    [SerializeField] private float crouchMoveSpeed = 1.0f;
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float rotationSpeed = 5.0f;
     [SerializeField] private Vector3 playerCrouchingColliderCenter;
@@ -156,6 +157,7 @@ public class Movement : MonoBehaviour
     void PlayerCrouch()
     {
         isCrouching = true;
+        moveSpeed = crouchMoveSpeed;
         playerCollider.height = playerCrouchingColliderHeight;
         playerCollider.center = playerCrouchingColliderCenter;
 
@@ -164,6 +166,7 @@ public class Movement : MonoBehaviour
     void PlayerCancelCrouch()
     {
         isCrouching = false;
+        moveSpeed = normalMoveSpeed;
         playerCollider.height = playerDefaultColliderHeight;
         playerCollider.center = playerDefaultColliderCenter;
     }
@@ -199,6 +202,5 @@ public class Movement : MonoBehaviour
 
 }
 //overlapping gravity areas has a major problem...fix that shit.
-//Walk slower while crouching.
 //walking on slopes and stairs.
 //inverse gravity..for tricking purposes :B
