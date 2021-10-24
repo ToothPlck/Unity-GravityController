@@ -1,11 +1,10 @@
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerGravity))]
 public class Movement : MonoBehaviour
 {
-    //Get references to ipnut actions
+    //Get references to input actions
     [Header("Player input actions")]
     [SerializeField] private InputActionReference movementControl;
     [SerializeField] private InputActionReference jumpControl;
@@ -150,28 +149,37 @@ public class Movement : MonoBehaviour
             isWalking = false;
 
         velocity = Vector3.zero;
+        //projectOnPlane projects a vector3 defined by a normal perpendicular to the surface, in this case the vector projected is the cameras forward, to the players normal
         velocity += Vector3.ProjectOnPlane(cameraMainTransform.forward, transform.up).normalized * move.z;
 
         if (velocity.magnitude > 1f)
             velocity.Normalize();
 
+        //Apply the movement vector to the current position, which is multiplied by fixedDeltaTime and moveSpeed for a smooth movement
         playerRigidbody.MovePosition(playerRigidbody.position + velocity * (moveSpeed * Time.fixedDeltaTime));
 
+        //set the rotation of the player around its Y axis
         Quaternion rotateTowards = Quaternion.Euler(0f, move.x * (rotationSpeed * Time.fixedDeltaTime), 0f);
+        //interpolate between the players current rotation and the desired rotation (for smooth rotation)
         Quaternion rotatePlayer = Quaternion.Slerp(playerRigidbody.rotation, playerRigidbody.rotation * rotateTowards, Time.fixedDeltaTime * 3f);
         playerRigidbody.MoveRotation(rotatePlayer);
     }
 
     void PlayerJump()
     {
+        //set players jumping state (useful for animations)
         isJumping = true;
+        //add an instant force to the player in the countering direction of gravity (players up direction)
         playerRigidbody.AddForce(-playerGravity.GravityDirection * jumpHeight, ForceMode.Impulse);
     }
 
     void PlayerCrouch()
     {
+        //set players crouching states (useful for animations)
         isCrouching = true;
+        //change the players movement speed while crouching
         moveSpeed = crouchMoveSpeed;
+        //decrease the height of the players collider and set the collider at the bottom of the players mesh
         playerCollider.height = playerCrouchingColliderHeight;
         playerCollider.center = playerCrouchingColliderCenter;
 
@@ -179,14 +187,17 @@ public class Movement : MonoBehaviour
 
     void PlayerCancelCrouch()
     {
+        //reverse the actions done in the PlayerCrouch() function when the crouch button is released
         isCrouching = false;
         moveSpeed = normalMoveSpeed;
         playerCollider.height = playerDefaultColliderHeight;
         playerCollider.center = playerDefaultColliderCenter;
     }
 
+    // OnCollisionStay is called once per frame for every collider/rigidbody that the players collider is touching/colliding with
     private void OnCollisionStay(Collision collision)
     {
+        //adjust the players movement and jump variables depending on the tags of the colliders
         switch (collision.gameObject.tag)
         {
             case "SpeedBoost":
@@ -208,8 +219,10 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // OnCollisionExit is called when the players collider has stopped touching/colliding with another collider/rigidbody
     private void OnCollisionExit(Collision collision)
     {
+        //revert any changes done to the players movement and jump variables
         moveSpeed = normalMoveSpeed;
         jumpHeight = normalJumpheight;
     }

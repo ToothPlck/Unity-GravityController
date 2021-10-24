@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class GravityController : MonoBehaviour
 {
     [SerializeField] private int priority;
-    public int Priority => priority; //Read/Look at/Access the serialized private variable 'priority' given to the gravity collider in Unitys' inspector.
+    public int Priority => priority; //Read the serialized private variable 'priority' given to the gravity collider in Unitys' inspector.
 
     // Start is called before the first frame update
     void Start()
